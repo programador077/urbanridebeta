@@ -1,20 +1,87 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 🚖 UrbanRide Beta
 
-# Run and deploy your AI Studio app
+**UrbanRide** es una plataforma de movilidad de próxima generación diseñada para ofrecer una experiencia de usuario premium, rápida y segura. Este repositorio contiene el prototipo funcional (MVP) desarrollado con tecnologías web modernas.
 
-This contains everything you need to run your app locally.
+## 🚀 Tecnologías Utilizadas
 
-View your app in AI Studio: https://ai.studio/apps/drive/1f9ac38AID9uO5oxCCkT-5LpyF9HLeqKx
+El proyecto está construido sobre un stack robusto y escalable:
 
-## Run Locally
+*   **Core:** [React](https://reactjs.org/) (v18) + [TypeScript](https://www.typescriptlang.org/)
+*   **Build Tool:** [Vite](https://vitejs.dev/) (para un desarrollo ultrarrápido)
+*   **Estilos:** [Tailwind CSS](https://tailwindcss.com/) (Diseño responsivo y Glassmorphism)
+*   **Mapas:** [React Leaflet](https://react-leaflet.js.org/) + OpenStreetMap (con estilos oscuros personalizados)
+*   **Animaciones:** [Framer Motion](https://www.framer.com/motion/) (Transiciones fluidas)
+*   **Estado Global:** React Context API
+*   **PWA:** Web App Manifest (Instalable en móviles)
 
-**Prerequisites:**  Node.js
+## 📂 Estructura del Proyecto
 
+La arquitectura está organizada para ser modular y mantenible:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+/src
+  ├── /components       # Componentes de UI (Vistas y Elementos)
+  │   ├── ClientDashboard.tsx  # Panel del pasajero (pedir viaje, chat)
+  │   ├── DriverDashboard.tsx  # Panel del conductor (aceptar viajes, ganancias)
+  │   ├── SimulatedMap.tsx     # Mapa interactivo con Leaflet
+  │   ├── LandingPage.tsx      # Pantalla de bienvenida
+  │   └── ...
+  ├── /contexts         # Gestión de Estado Global
+  │   └── RideContext.tsx      # Lógica central (roles, ubicación, viajes)
+  ├── /hooks            # Custom Hooks (Lógica reutilizable)
+  │   ├── useRideSimulation.ts # Motor de simulación de movimiento GPS
+  │   └── useSound.ts          # Efectos de sonido y vibración
+  ├── /services         # Integraciones Externas
+  │   ├── routingService.ts    # Cálculo de rutas (OSRM)
+  │   └── geminiService.ts     # IA para chat y análisis de tráfico
+  ├── /utils            # Utilidades puras
+  │   └── pricing.ts           # Algoritmo de precios dinámicos
+  └── App.tsx           # Componente raíz y orquestador
+```
+
+## ✨ Características Clave
+
+1.  **Simulación Dual:** Permite probar la app como Pasajero y Conductor simultáneamente en la misma pantalla.
+2.  **Mapa en Tiempo Real:** Visualización de vehículos, rutas y estimaciones de llegada.
+3.  **Experiencia Sensorial:** Efectos de sonido sintetizados y feedback háptico (vibración) para notificaciones.
+4.  **Precios Dinámicos:** Algoritmo que ajusta tarifas según hora pico y demanda simulada.
+5.  **Persistencia:** Guarda tu progreso (ganancias, historial) en el navegador.
+6.  **PWA:** Puede instalarse como una app nativa en Android/iOS.
+
+## 🛠️ Cómo Ejecutar el Proyecto
+
+Sigue estos pasos para correr la aplicación en tu entorno local:
+
+### Prerrequisitos
+*   Node.js (v16 o superior)
+*   npm (v8 o superior)
+
+### Pasos
+
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone https://github.com/programador077/urbanridebeta.git
+    cd urbanridebeta
+    ```
+
+2.  **Instalar dependencias:**
+    ```bash
+    npm install
+    ```
+
+3.  **Iniciar servidor de desarrollo:**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Abrir en el navegador:**
+    Visita `http://localhost:5173` (o el puerto que indique la terminal).
+
+## 📱 Probar en Móvil (Red Local)
+Para probar la geolocalización y la experiencia PWA en tu celular:
+1.  Asegúrate de que tu PC y celular estén en la misma red WiFi.
+2.  Ejecuta `npm run dev -- --host`.
+3.  En tu celular, ingresa a la IP de tu PC (ej: `http://192.168.1.X:5173`).
+
+---
+Desarrollado con ❤️ por UrbanRide Technologies.
