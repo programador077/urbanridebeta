@@ -1,0 +1,7 @@
+{
+  "name": "UrbanRide Beta",
+  "description": "Plataforma futurista de viajes y entregas Beta (estilo Uber/Maxim) con mapas dinámicos en tiempo real, roles de conductor/cliente e inteligencia Gemini para rutas y servicios de ubicación.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

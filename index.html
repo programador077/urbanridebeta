@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" />
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="UrbanRide: La plataforma de movilidad de próxima generación en La Rioja. Viajes seguros, rápidos y transparentes. Conecta con conductores locales al instante." />
+  <meta name="keywords"
+    content="UrbanRide, taxi, remis, transporte, La Rioja, app de viajes, movilidad, conductor, pasajero" />
+  <meta name="author" content="UrbanRide Technologies" />
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="UrbanRide Beta - Tu ciudad, tu viaje" />
+  <meta property="og:description"
+    content="Pide un viaje en segundos o gana dinero conduciendo. La app de movilidad más avanzada de la región." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=1200" />
+  <meta property="og:type" content="website" />
+
+  <title>UrbanRide Beta | Movilidad Inteligente</title>
+  <link rel="manifest" href="/manifest.json">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0f172a;
+      /* Slate 900 */
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1e293b;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #3b82f6;
+      border-radius: 4px;
+    }
+
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .map-pattern {
+      background-color: #e5e5f7;
+      opacity: 0.1;
+      background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #e5e5f7 10px), repeating-linear-gradient(#444cf755, #444cf7 2px);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+    .animate-fade-in {
+      animation: fadeInUp 0.3s ease-out forwards;
+    }
+  </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+  }
+}
+</script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>
