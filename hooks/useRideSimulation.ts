@@ -9,7 +9,7 @@ export const useRideSimulation = () => {
         driverLocation,
         setDriverLocation,
         setDriverHeading,
-        setActiveRide
+        dispatchRide
     } = useRide();
 
     const [routePath, setRoutePath] = useState<Location[]>([]);
@@ -120,11 +120,11 @@ export const useRideSimulation = () => {
         if (isAtEnd) {
             if (activeRide.status === 'accepted') {
                 // Auto-arrive
-                setActiveRide({ ...activeRide, status: 'driver_arrived' });
+                dispatchRide({ type: 'DRIVER_ARRIVED' });
                 setRoutePath([]);
             } else if (activeRide.status === 'in_progress') {
                 // Auto-complete
-                setActiveRide({ ...activeRide, status: 'completed' });
+                dispatchRide({ type: 'COMPLETE_TRIP' });
                 setRoutePath([]);
             }
         }

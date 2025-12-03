@@ -319,7 +319,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({
       <motion.div
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="glass-panel rounded-t-3xl p-6 shadow-2xl border-t border-blue-500/30 h-full"
+        className="glass-panel rounded-t-3xl p-6 shadow-2xl border-t border-blue-500/30 h-full max-h-[85vh] flex flex-col overflow-y-auto custom-scrollbar"
       >
         <h2 className="text-xl font-bold text-white mb-4">¿A dónde vas?</h2>
 

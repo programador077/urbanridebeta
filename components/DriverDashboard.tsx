@@ -130,7 +130,7 @@ const DriverDashboard: React.FC<DriverDashboardProps> = ({
           >
 
             {/* Header: Online/Offline & Earnings */}
-            <div className="flex justify-between items-center mb-6 shrink-0">
+            <div className="flex flex-wrap justify-between items-center mb-6 shrink-0 gap-4">
               <div className="flex items-center space-x-3">
                 <div className={`w-3 h-3 rounded-full transition-all duration-500 ${isOnline ? 'bg-green-500 shadow-[0_0_10px_#22c55e]' : 'bg-slate-500'}`}></div>
                 <span className="font-semibold text-lg">{isOnline ? 'Conectado' : 'Desconectado'}</span>
@@ -139,7 +139,7 @@ const DriverDashboard: React.FC<DriverDashboardProps> = ({
                   <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               </div>
-              <div className="text-right cursor-pointer group" onClick={() => setView(view === 'dashboard' ? 'history' : 'dashboard')}>
+              <div className="text-right cursor-pointer group ml-auto" onClick={() => setView(view === 'dashboard' ? 'history' : 'dashboard')}>
                 <p className="text-xs text-slate-400 uppercase tracking-wider group-hover:text-white transition-colors">Ganancias de Hoy</p>
                 <p className="text-xl font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors flex items-center justify-end gap-1">
                   {formatCurrency(earnings)}

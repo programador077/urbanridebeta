@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { RideRequest, Location, UserRole, ChatMessage, CompletedRide } from '../types';
+import { rideReducer, RideAction } from '../reducers/rideReducer';
 
 interface RideContextType {
     // User State
@@ -10,7 +11,7 @@ interface RideContextType {
 
     // Ride State
     activeRide: RideRequest | null;
-    setActiveRide: (ride: RideRequest | null) => void;
+    dispatchRide: React.Dispatch<RideAction>; // Replaces setActiveRide
     destination: Location | undefined;
     setDestination: (loc: Location | undefined) => void;
 
@@ -49,7 +50,8 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [driverLocation, setDriverLocation] = useState<Location | undefined>(undefined);
     const [driverHeading, setDriverHeading] = useState<number>(0);
     const [destination, setDestination] = useState<Location | undefined>(undefined);
-    const [activeRide, setActiveRide] = useState<RideRequest | null>(null);
+    // Replace useState with useReducer
+    const [activeRide, dispatchRide] = React.useReducer(rideReducer, null);
 
     const [isDriverOnline, setIsDriverOnline] = useState<boolean>(() => {
         return localStorage.getItem('urbanride_isOnline') === 'true';
@@ -102,7 +104,7 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         driverLocation, setDriverLocation,
         driverHeading, setDriverHeading,
         destination, setDestination,
-        activeRide, setActiveRide,
+        activeRide, dispatchRide,
         isDriverOnline, setIsDriverOnline,
         chatMessages, setChatMessages, addChatMessage,
         notification, showNotification,

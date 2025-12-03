@@ -83,5 +83,7 @@ Para probar la geolocalización y la experiencia PWA en tu celular:
 2.  Ejecuta `npm run dev -- --host`.
 3.  En tu celular, ingresa a la IP de tu PC (ej: `http://192.168.1.X:5173`).
 
+
 ---
+&copy; 2025 **Esio Nahuel Vitanoff**. Todos los derechos reservados.
 Desarrollado con ❤️ por UrbanRide Technologies.

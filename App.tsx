@@ -20,7 +20,7 @@ const UrbanRideApp: React.FC = () => {
     myLocation, setMyLocation,
     driverLocation, driverHeading,
     destination, setDestination,
-    activeRide, setActiveRide,
+    activeRide, dispatchRide,
     isDriverOnline, setIsDriverOnline,
     chatMessages, setChatMessages, addChatMessage,
     notification, showNotification,
@@ -43,37 +43,34 @@ const UrbanRideApp: React.FC = () => {
   // --- Actions ---
 
   const handleRequestRide = (destStr: string, price: number, distance: number, vehicleType: VehicleType) => {
-    // Recalculate price with real utility if needed, but for now trust the input
-    // In a real app, we'd calculate this on server.
-
     let mockDestCoords = destination;
     if (!mockDestCoords) {
       mockDestCoords = { lat: -29.4131, lng: -66.8558 }; // Default
     }
 
-    setActiveRide({
-      id: `ride-${Date.now()}`,
-      clientId: 'client-1',
-      clientName: 'Tú',
-      origin: myLocation,
-      destination: mockDestCoords,
-      status: 'searching',
-      estimatedPrice: price,
-      distanceKm: distance,
-      estimatedTimeMin: Math.round(distance * 3), // Rough est
-      vehicleType
+    dispatchRide({
+      type: 'REQUEST_RIDE',
+      payload: {
+        origin: myLocation,
+        destination: mockDestCoords,
+        price,
+        distance,
+        vehicleType,
+        clientId: 'client-1',
+        clientName: 'Tú'
+      }
     });
     setChatMessages([]);
   };
 
   const handleDriverAccept = () => {
     if (!activeRide) return;
-    setActiveRide({ ...activeRide, status: 'accepted', driverId: 'driver-me' });
+    dispatchRide({ type: 'DRIVER_ACCEPT', payload: { driverId: 'driver-me' } });
     addChatMessage({ id: 'sys', sender: 'driver', text: '¡Hola! Estoy en camino.', timestamp: Date.now() });
   };
 
   const handleDriverReject = () => {
-    setActiveRide(null);
+    dispatchRide({ type: 'RESET' });
     setDestination(undefined);
     setChatMessages([]);
   };
@@ -81,7 +78,11 @@ const UrbanRideApp: React.FC = () => {
   const handleStatusUpdate = (status: RideStatus) => {
     if (!activeRide) return;
 
-    if (status === 'completed') {
+    if (status === 'driver_arrived') {
+      dispatchRide({ type: 'DRIVER_ARRIVED' });
+    } else if (status === 'in_progress') {
+      dispatchRide({ type: 'START_TRIP' });
+    } else if (status === 'completed') {
       const rideEarnings = activeRide.estimatedPrice * 0.85;
       setEarnings(prev => prev + rideEarnings);
 
@@ -91,20 +92,19 @@ const UrbanRideApp: React.FC = () => {
         completedAt: new Date().toISOString()
       };
       setRideHistory(prev => [completedRide, ...prev]);
+      dispatchRide({ type: 'COMPLETE_TRIP' });
 
       // Reset after delay
       setTimeout(() => {
-        setActiveRide(null);
+        dispatchRide({ type: 'RESET' });
         setDestination(undefined);
         setChatMessages([]);
       }, 3000);
     }
-
-    setActiveRide({ ...activeRide, status });
   };
 
   const handleCancelRide = () => {
-    setActiveRide(null);
+    dispatchRide({ type: 'CANCEL_RIDE' });
     setDestination(undefined);
     setChatMessages([]);
   };
@@ -235,15 +235,15 @@ const UrbanRideApp: React.FC = () => {
       )}
 
       {role === 'simulation' && (
-        <div className="absolute inset-0 top-20 z-40 p-4 pointer-events-none flex flex-col md:flex-row gap-4">
-          <div className="flex-1 pointer-events-auto relative min-h-[50%]">
+        <div className="absolute inset-0 top-20 z-40 p-4 pointer-events-none flex flex-col md:flex-row gap-4 overflow-hidden">
+          <div className="flex-1 pointer-events-auto relative h-1/2 md:h-full flex flex-col justify-end">
             <div className="absolute -top-6 left-0 text-xs font-bold text-blue-400 uppercase tracking-widest bg-slate-900/80 px-2 py-1 rounded">Lado Cliente</div>
             <ClientDashboard
               activeRide={activeRide}
               onRequestRide={handleRequestRide}
               onCancelRide={handleCancelRide}
               onSelectDemoRoute={(o) => setMyLocation(o)}
-              containerClassName="h-full w-full relative"
+              containerClassName="relative w-full max-h-full"
               onStartMapSelection={(m) => setSelectionMode(prev => prev === m ? null : m)}
               isSelectingLocation={selectionMode}
               currentOrigin={myLocation}
@@ -256,7 +256,7 @@ const UrbanRideApp: React.FC = () => {
             />
           </div>
 
-          <div className="flex-1 pointer-events-auto relative min-h-[50%]">
+          <div className="flex-1 pointer-events-auto relative h-1/2 md:h-full flex flex-col justify-end">
             <div className="absolute -top-6 right-0 text-xs font-bold text-emerald-400 uppercase tracking-widest bg-slate-900/80 px-2 py-1 rounded">Lado Conductor</div>
             <DriverDashboard
               activeRide={activeRide}
@@ -268,7 +268,7 @@ const UrbanRideApp: React.FC = () => {
               setIsOnline={setIsDriverOnline}
               earnings={earnings}
               rideHistory={rideHistory}
-              containerClassName="h-full w-full relative"
+              containerClassName="relative w-full max-h-full"
               chatMessages={chatMessages}
               onSendMessage={handleSendMessage}
               onLocateMe={handleLocateMe}
